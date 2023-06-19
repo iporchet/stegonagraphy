@@ -4,9 +4,10 @@ def encode_bin(text):
     binary_codes = [bin(ord(character))[2:] for character in charsintext]
     binary_codes.append(bin(ord(';'))[2:])
 
-    print(binary_codes)
+    for code in range(len(binary_codes)):
+        if len(binary_codes[code]) == 6:
+            binary_codes[code] = '0'+binary_codes[code]
 
-    
     return binary_codes
 
 
@@ -20,22 +21,17 @@ def decode_bin(array_of_bin):
 
 def encode_message(data_array, bin_code):
 
-    code_indx = 0
-
-    for x in range(0, len(data_array)):
-        for y in range(0, len(data_array[x])):
-            if code_indx == len(bin_code):
-                break
-
-            else:
+   
+    for digit in range(len(bin_code)):
+        for x in range(0, len(data_array)):
+            for y in range(0, len(data_array[x])):
                 for value in range(0, len(data_array[x][y])):
-                    if int(bin_code[code_indx]) != (data_array[x][y][value]%2):
+                    if int(bin_code[digit]) != (data_array[x][y][value]%2):
                         data_array[x][y][value] -= 1
-                        code_indx += 1
+                        break
                     
-                    else:
-                        code_indx += 1
-        break
+                break
+            break
 
     return data_array
 
@@ -45,21 +41,23 @@ def extract_message(data_array):
     binary_array = []
     bit_string = ""
 
-    for x in range(0, len(data_array)):
-        for y in range(0, len(data_array[x])):
-            for value in data_array[x][y]:
-                print(data_array[x][y])
-                if bin(ord(';'))[2:] in binary_array:
+    for row in range(len(data_array)):
+        for col in range(len(data_array[row])):
+            for channel in range(len(data_array[row][col])):
+                if '0111011' == bit_string or '0111011' in binary_array:
+                    binary_array.append(bit_string)
                     break
 
                 if len(bit_string) == 7:
                     binary_array.append(bit_string)
                     bit_string = ""
+                    bit_string += str(data_array[row][col][channel]%2)
 
                 else:
-                    bit_string += str(value%2)
-
-            break
+                    bit_string += str(data_array[row][col][channel]%2)
 
 
     return binary_array
+
+
+
