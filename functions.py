@@ -21,19 +21,22 @@ def decode_bin(array_of_bin):
 
 def encode_message(data_array, bin_code):
 
-   
-    for digit in range(len(bin_code)):
-        for x in range(0, len(data_array)):
-            for y in range(0, len(data_array[x])):
-                for value in range(0, len(data_array[x][y])):
+    digit = 0
+
+    for x in range(0, len(data_array)):
+        for y in range(0, len(data_array[x])):
+            for value in range(0, len(data_array[x][y])):
+
+                if digit < len(bin_code):
                     if int(bin_code[digit]) != (data_array[x][y][value]%2):
                         data_array[x][y][value] -= 1
-                        break
-                    
-                break
-            break
+                        digit += 1
 
-    return data_array
+                    else:
+                        digit += 1
+
+                elif digit >= len(bin_code):
+                    return data_array
 
 
 def extract_message(data_array):
@@ -46,7 +49,8 @@ def extract_message(data_array):
             for channel in range(len(data_array[row][col])):
                 if '0111011' == bit_string or '0111011' in binary_array:
                     binary_array.append(bit_string)
-                    break
+                    return binary_array
+
 
                 if len(bit_string) == 7:
                     binary_array.append(bit_string)
@@ -57,7 +61,6 @@ def extract_message(data_array):
                     bit_string += str(data_array[row][col][channel]%2)
 
 
-    return binary_array
-
+    
 
 

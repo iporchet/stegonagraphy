@@ -1,45 +1,53 @@
+# THINGS NEEDED:
+#   input: encode/decode, message, path to image
+#   output: new image with encoded message 
+
 import os
 import functions
+import argparse
 import numpy as np
 import copy
 import PIL as pl
 from PIL import Image
-    
-image = Image.open('python/stegonagraphy/picutre-4.png') #Desired image path here
-
-# convert image into data array 
-data = np.asarray(image)
-
-x = 'hello'
-
-# create copy of data array to compare
-data0 = copy.deepcopy(data)
-
-# code to get ascii chracters into binary as an array
-code_array = functions.encode_bin("Hello World!")
 
 
-#code_array combined into a string
-code = ''.join(code_array)
+parser = argparse.ArgumentParser()
 
-total = 0
-for x in code:
-    total += 1
-    print(total)
+group = parser.add_mutually_exclusive_group()
+group.add_argument('-e', type=str, action='store_true', help='Encode messages')
+group.add_argument('-d', type=str, required=True, help='Decode messages')
 
-
-original_array = functions.encode_message(data, code)
-
-
-if os.path.exists('python/stegonagraphy/new-picture.png') == False:
-    new_img = Image.fromarray(data)
-    new_img.save("new-picture.png")
+parser.add_argument('-m', type=str, required=True, help='Message to encode')
+parser.add_argument('-i', type=str, required=True, help='Path to the image')
+parser.add_argument('--name', type=str, help='Name for output file')
+args = parser.parse_args()
 
 
-image1 = Image.open('new-picture.png') #Desired image path here
-data1 = np.asarray(image1)
+def main():
+    pass
 
-print(data1)
+# image = Image.open('python/stegonagraphy/picutre-4.png') #Desired image path here
 
-print(functions.extract_message(data1))
+# # convert image into data array 
+# data = np.asarray(image)
+
+
+
+
+# # code to get ascii chracters into binary as an array
+# code_array = functions.encode_bin("Hello World!")
+
+
+# #code_array combined into a string
+# code = ''.join(code_array)
+
+
+
+# original_array = functions.encode_message(data, code)
+
+
+
+
+
+
 
