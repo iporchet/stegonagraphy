@@ -20,7 +20,7 @@ parser.add_argument('-i', type=str, required=True, help='Full path to the image'
 group.add_argument('-d', action='store_true', help='Decode messages')
 
 group.add_argument('-e', action='store_true', help='Encode messages')
-parser.add_argument('-m', type=str, required=True, help='Message to encode')
+parser.add_argument('-m', type=str, help='Message to encode')
 parser.add_argument('-n', type=str, help='Name for output file')
 
 args = parser.parse_args()
@@ -37,7 +37,7 @@ def main():
                 image = Image.open(args.i)
 
             except FileNotFoundError:
-                print("ERROR: Image file does not exist")
+                print("ERROR: Image file {args.i} does not exist")
                 exit(1)
 
             
@@ -58,11 +58,20 @@ def main():
                 print("Image created: encoded_image.png")
                 new_img.save("encoded_image.png")
                 
-
-    
     elif args.d:
-        print("decrypting")
-        exit(0)
+        print("Decrypting\n")
+        
+        try:
+            image = Image.open(args.i)
+
+        except FileNotFoundError:
+            print("ERROR: Image file {args.i} does not exist")
+            exit(1)
+
+        data_of_image = np.asarray(image)
+        message_from_array = functions.extract_message(data_of_image)
+        decoded_message = functions.decode_bin(message_from_array)
+        print(f"The code is: {decoded_message}\n")
 
     exit(0)
 

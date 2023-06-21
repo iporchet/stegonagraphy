@@ -16,7 +16,7 @@ def decode_bin(array_of_bin):
     ascii_codes = [int(str(x), 2) for x in array_of_bin if x != bin(ord(';'))[2:]]
     characters = [chr(x) for x in ascii_codes]
 
-    return ''.join(characters)
+    return ''.join(characters[:-1])
 
 
 def encode_message(data_array, bin_code):
