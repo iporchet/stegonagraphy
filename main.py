@@ -25,7 +25,6 @@ parser.add_argument('-n', type=str, help='Name for output file')
 
 args = parser.parse_args()
 
-
 def main():
 
     if args.e:
@@ -76,28 +75,4 @@ def main():
     exit(0)
 
 main()
-# image = Image.open('python/stegonagraphy/picutre-4.png') #Desired image path here
-
-# # convert image into data array 
-# data = np.asarray(image)
-
-
-
-
-# # code to get ascii chracters into binary as an array
-# code_array = functions.encode_bin("Hello World!")
-
-
-# #code_array combined into a string
-# code = ''.join(code_array)
-
-
-
-# original_array = functions.encode_message(data, code)
-
-
-
-
-
-
 
