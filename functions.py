@@ -10,14 +10,12 @@ def encode_bin(text):
 
     return binary_codes
 
-
 def decode_bin(array_of_bin):
     """Decodes binary message"""
     ascii_codes = [int(str(x), 2) for x in array_of_bin if x != bin(ord(';'))[2:]]
     characters = [chr(x) for x in ascii_codes]
 
     return ''.join(characters[:-1])
-
 
 def encode_message(data_array, bin_code):
 
@@ -37,7 +35,6 @@ def encode_message(data_array, bin_code):
 
                 elif digit >= len(bin_code):
                     return data_array
-
 
 def extract_message(data_array):
     """Function returns a list of binary codes"""
@@ -59,8 +56,4 @@ def extract_message(data_array):
 
                 else:
                     bit_string += str(data_array[row][col][channel]%2)
-
-
-    
-
 
