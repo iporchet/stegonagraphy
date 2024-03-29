@@ -1,59 +1,53 @@
-def encode_bin(text):
-    """Encondes binary message"""
+def encode_hex(text):
+    """Encodes hex message"""
     charsintext = [x for x in text]
-    binary_codes = [bin(ord(character))[2:] for character in charsintext]
-    binary_codes.append(bin(ord(';'))[2:])
+    hex_codes = [hex(ord(character))[2:] for character in charsintext]
+    hex_codes.append(hex(ord(';'))[2:])
 
-    for code in range(len(binary_codes)):
-        if len(binary_codes[code]) == 6:
-            binary_codes[code] = '0'+binary_codes[code]
+    return hex_codes
 
-    return binary_codes
+def decode_hex(hex_string):
+    ascii_array = []
 
-def decode_bin(array_of_bin):
-    """Decodes binary message"""
-    ascii_codes = [int(str(x), 2) for x in array_of_bin if x != bin(ord(';'))[2:]]
-    characters = [chr(x) for x in ascii_codes]
+    for index in range(0, len(hex_string), 2):
+        ascii_array.append(chr(int(hex_string[index]+hex_string[index+1], 16)))
 
-    return ''.join(characters[:-1])
+    return ''.join(ascii_array[:len(ascii_array)-1])
 
-def encode_message(data_array, bin_code):
-
+def encode_message_hex(data_array, hex_code):
     digit = 0
+
 
     for x in range(0, len(data_array)):
         for y in range(0, len(data_array[x])):
             for value in range(0, len(data_array[x][y])):
 
-                if digit < len(bin_code):
-                    if int(bin_code[digit]) != (data_array[x][y][value]%2):
-                        data_array[x][y][value] -= 1
+                #TODO: mod 16 rgb value then add or subtract difference between actual value
+                if digit < len(hex_code):
+                    if int(hex_code[digit], 16) < (data_array[x][y][value]%16):
+                        data_array[x][y][value] -= (data_array[x][y][value]%16) - int(hex_code[digit], 16)
+                        digit += 1
+
+                    elif int(hex_code[digit], 16) > (data_array[x][y][value]%16):
+                        data_array[x][y][value] += int(hex_code[digit], 16) - (data_array[x][y][value]%16)
                         digit += 1
 
                     else:
                         digit += 1
-
-                elif digit >= len(bin_code):
+                else:
                     return data_array
 
-def extract_message(data_array):
-    """Function returns a list of binary codes"""
-    binary_array = []
-    bit_string = ""
+def extract_message_hex(data_array):
+    hex_string = ""
 
     for row in range(len(data_array)):
         for col in range(len(data_array[row])):
             for channel in range(len(data_array[row][col])):
-                if '0111011' == bit_string or '0111011' in binary_array:
-                    binary_array.append(bit_string)
-                    return binary_array
 
-
-                if len(bit_string) == 7:
-                    binary_array.append(bit_string)
-                    bit_string = ""
-                    bit_string += str(data_array[row][col][channel]%2)
+                if "3b" in hex_string:
+                    return hex_string
 
                 else:
-                    bit_string += str(data_array[row][col][channel]%2)
+                    hex_string += str(hex(data_array[row][col][channel]%16))[2:]
+
 

@@ -42,11 +42,8 @@ def main():
             
             # prep for encryption
             data_of_image = np.asarray(image)
-            message_bin = functions.encode_bin(args.m)
-            code = ''.join(message_bin)
-
-            encoded_data = functions.encode_message(data_of_image, code)
-
+            message_from_hex = functions.encode_hex(args.m)
+            encoded_data = functions.encode_message_hex(data_of_image, ''.join(message_from_hex))
             new_img = Image.fromarray(encoded_data)
 
             if args.n:
@@ -58,7 +55,7 @@ def main():
                 new_img.save("encoded_image.png")
                 
     elif args.d:
-        print("Decrypting\n")
+        print("Decrypting:\n")
         
         try:
             image = Image.open(args.i)
@@ -68,9 +65,10 @@ def main():
             exit(1)
 
         data_of_image = np.asarray(image)
-        message_from_array = functions.extract_message(data_of_image)
-        decoded_message = functions.decode_bin(message_from_array)
-        print(f"The code is: {decoded_message}\n")
+        message_from_array = functions.extract_message_hex(data_of_image)
+        print(functions.decode_hex(message_from_array))
+        #DEBUGGING
+        
 
     exit(0)
 
