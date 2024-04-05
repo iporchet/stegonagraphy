@@ -1,7 +1,3 @@
-# THINGS NEEDED:
-#   input: encode/decode, message, path to image
-#   output: new image with encoded message 
-
 import os
 import functions
 import argparse
@@ -42,9 +38,11 @@ def main():
             
             # prep for encryption
             data_of_image = np.asarray(image)
-            message_from_hex = functions.encode_hex(args.m)
-            encoded_data = functions.encode_message_hex(data_of_image, ''.join(message_from_hex))
-            new_img = Image.fromarray(encoded_data)
+            encoder = functions.Image_encoder(data_of_image, args.m) 
+            encoder.encode_hex()
+
+            if (encode.encode_message_hex()):
+                new_img = Image.fromarray(encoded_data)
 
             if args.n:
                 print("Image created: "+args.n)
