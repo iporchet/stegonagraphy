@@ -1,5 +1,5 @@
 class Image_encoder:
-    def __init__(self, data_array, stringmssge):
+    def __init__(self, data_array, stringmssge=""):
         self.data_array = data_array
         self.mssge = stringmssge
         self.hex_string = ""
@@ -18,7 +18,7 @@ class Image_encoder:
         for index in range(0, len(self.hex_string), 2):
             ascii_array.append(chr(int(self.hex_string[index]+self.hex_string[index+1], 16)))
 
-        return ''.join(ascii_array[:len(ascii_array)-1])
+        self.hex_string = ''.join(ascii_array[:len(ascii_array)-1])
 
     def encode_message_hex(self):   
         digit = 0
@@ -57,5 +57,6 @@ class Image_encoder:
 
                     else:
                         hex_string += str(hex(self.data_array[row][col][channel]%16))[2:]
-
+        
+        self.hex_string = hex_string
 

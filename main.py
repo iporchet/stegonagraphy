@@ -40,18 +40,25 @@ def main():
             data_of_image = np.asarray(image)
             encoder = functions.Image_encoder(data_of_image, args.m) 
             encoder.encode_hex()
+            encoder.encode_message_hex()
 
-            if (encode.encode_message_hex()):
-                new_img = Image.fromarray(encoded_data)
+            if (encoder.encode_message_hex()):
+                #TODO: Add method for new image array
+                #new_img = Image.fromarray(encoded_data)
+                new_img = Image.fromarray(encoder.data_array)
 
-            if args.n:
-                print("Image created: "+args.n)
-                new_img.save(str(args.n)+".png")
+                if args.n:
+                    print("Image created: "+args.n)
+                    new_img.save(str(args.n)+".png")
                 
+                else:
+                    print("Image created: encoded_image.png")
+                    new_img.save("encoded_image.png")
+
             else:
-                print("Image created: encoded_image.png")
-                new_img.save("encoded_image.png")
-                
+                print("ERROR: failed to encode message")
+                exit(1)
+    
     elif args.d:
         print("Decrypting:\n")
         
@@ -63,6 +70,7 @@ def main():
             exit(1)
 
         data_of_image = np.asarray(image)
+        decoder = functions.Image_encoder(data_of_image, "")
         message_from_array = functions.extract_message_hex(data_of_image)
         print(functions.decode_hex(message_from_array))
         #DEBUGGING
